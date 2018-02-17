@@ -1,9 +1,13 @@
-FROM rust:1.23.0
+FROM node:carbon
 
 WORKDIR /usr/src/app
-COPY . .
 
-RUN rustc ./src/main.rs
+# Install dependencies
+COPY package.json ./
+RUN npm install
 
-CMD ["./main"]
+COPY src src
+COPY data data
+
+CMD ["npm", "start"]
 

@@ -1,0 +1,12 @@
+{
+  "name": "pintnow",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "elasticsearch": "^14.1.0",
+    "express": "^4.16.1"
+  }
+}
