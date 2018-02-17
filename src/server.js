@@ -98,6 +98,9 @@ app.get('/pubs', (req, res) => {
     var lon = req.query.lon;
     var num = req.query.num || 25;
 
+    res.set('Access-Control-Allow-Origin', '*')
+
+
     if (!lat || !lon || !num) {
         return res.status(400).send({ error: "please supply lat, lon and num variables" });
     }
