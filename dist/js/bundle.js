@@ -58793,7 +58793,7 @@ function prettyPrice(prices) {
     }) / prices.length / 100).toFixed(2) + ' for a pint';
 }
 
-var host = exports.host = 'http://localhost';
+var host = exports.host = 'https://pintnow.uk';
 
 /***/ })
 /******/ ]);
