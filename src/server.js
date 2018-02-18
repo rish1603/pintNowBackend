@@ -6,6 +6,8 @@ const fs = require('fs');
 const getDist = require('./util');
 const ping = require('ping');
 const bodyParser = require('body-parser')
+const http = require('http')
+const https = require('https')
 
 
 var client  = new elasticsearch.Client({
@@ -95,6 +97,27 @@ const HOST = '0.0.0.0';
 const app = express();
 app.use(bodyParser.json())
 app.use(express.static('dist'))
+const ssl = fs.existsSync('/cert')
+console.log(`ssl is ${ssl}`)
+if(ssl) {
+    //this runs two servers an http and an https one on the right ports(default behaviour)
+	var options = {
+		key: fs.readFileSync('/cert/privkey.pem'),
+		cert: fs.readFileSync('/cert/fullchain.pem'),
+		ca: fs.readFileSync('/cert/chain.pem')
+	}
+	http.createServer(function(req,res)
+	{
+		res.writeHead(301, {"Location": "https://" + req.headers['host'] + req.url});
+		res.end();
+	}).listen(80)
+	https.createServer(options,app).listen(443);
+	console.log("Server running on 80 and 443")
+} else {
+    app.listen(PORT, HOST);
+    console.log(`Running on http://${HOST}:${PORT}`);
+}
+
 // app.get('/', (req, res) => {
 //     res.send('PintNow server 0.0.1');
 // });
@@ -215,6 +238,4 @@ app.post('/pubs/price', (req, res) => {
         })
 })
 
-app.listen(PORT, HOST);
-console.log(`Running on http://${HOST}:${PORT}`);
 
