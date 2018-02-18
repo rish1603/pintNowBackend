@@ -4,7 +4,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node src/start.js",
-    "dev": "docker-compose build; docker-compose up"
+    "dev": "docker-compose build; docker-compose up",
+    "build": "cp -r ../pintNowFrontend/dist ."
   },
   "dependencies": {
     "body-parser": "^1.18.2",

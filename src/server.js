@@ -94,9 +94,10 @@ const HOST = '0.0.0.0';
 // App
 const app = express();
 app.use(bodyParser.json())
-app.get('/', (req, res) => {
-    res.send('PintNow server 0.0.1');
-});
+app.use(express.static('dist'))
+// app.get('/', (req, res) => {
+//     res.send('PintNow server 0.0.1');
+// });
 
 app.get('/pubs', (req, res) => {
     var lat = req.query.lat;
@@ -164,10 +165,13 @@ app.get('/pubs', (req, res) => {
 app.post('/pubs/price', (req, res) => {
     const id = req.body.id
     const price = req.body.price
+    console.log('important', id, price)
     res.set('Content-Type', 'application/json')
-    if(id == null, price == null) {
+    res.set('Access-Control-Allow-Origin', '*')
+    if(id == null || price == null) {
         res.send(JSON.stringify({
-            error: "id or price not specified"
+            error: "id or price not specified",
+            body: req.body,
         }))
     }
     client.search({
@@ -183,8 +187,8 @@ app.post('/pubs/price', (req, res) => {
       })
       .then((resp) => {
             var hit = resp.hits.hits[0]._source;
-            console.log(resp.hits)
-            const prices = hit.pricePence == null ? [price] : [price].concat(prices)
+            console.log(hit)
+            const prices = hit.pricePence == null ? [price] : [price].concat(hit.pricePence)
             client.update({
                 index: 'pubs',
                 type: 'pub',
