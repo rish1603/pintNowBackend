@@ -4962,7 +4962,7 @@ var App = function (_React$Component) {
                 _react.Fragment,
                 null,
                 _react2.default.createElement(_pubView2.default, { show: this.state.showModal, close: this.closeModal.bind(this), pub: this.state.currentPub }),
-                this.state.pubs.length > 0 ? _react2.default.createElement(_pubForm2.default, { show: this.state.showForm, close: this.closeForm.bind(this), pub: this.state.pubs[0] }) : _react2.default.createElement('span', null),
+                this.state.pubs.length > 0 ? _react2.default.createElement(_pubForm2.default, { refresh: this.updateAll.bind(this), show: this.state.showForm, close: this.closeForm.bind(this), pub: this.state.pubs[0] }) : _react2.default.createElement('span', null),
                 _react2.default.createElement(
                     _AppBar2.default,
                     { position: 'static' },
@@ -54009,6 +54009,7 @@ var PubForm = function (_React$Component) {
                         'Content-Type': 'application/json'
                     }), _defineProperty(_fetch, 'body', JSON.stringify(body)), _fetch));
                     console.log((await res.json()));
+                    this.props.refresh();
                     this.closeModal.bind(this)();
                 } catch (e) {
                     console.error(e);
