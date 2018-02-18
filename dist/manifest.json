@@ -3,7 +3,7 @@
   "short_name": "Pints",
   "theme_color": "#e84118",
   "background_color": "#fafafa",
-  "display": "fullscreen",
+  "display": "standalone",
   "orientation": "portrait",
   "Scope": "/",
   "start_url": "/",
