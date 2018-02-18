@@ -6,7 +6,7 @@ const fs = require('fs');
 const getDist = require('./util');
 
 var client = new elasticsearch.Client({
-    host: 'localhost:9200',
+    host: 'elasticsearch:9200',
 });
 
 // Insert all the pubs into the db
