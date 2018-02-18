@@ -4,10 +4,13 @@ const express = require('express');
 const elasticsearch = require('elasticsearch')
 const fs = require('fs');
 const getDist = require('./util');
+const ping = require('ping');
 
-var client = new elasticsearch.Client({
-    host: 'elasticsearch:9200',
+
+var client  = new elasticsearch.Client({
+    host: 'es:9200',
 });
+
 
 // Insert all the pubs into the db
 //client.indices.delete({ index: 'pubs' }).then(() => {

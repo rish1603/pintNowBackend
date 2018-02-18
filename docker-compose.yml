@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-    elasticsearch:
+    es:
         image: elasticsearch
         ports:
             - 9200:9200
@@ -9,6 +9,4 @@ services:
         build: .
         ports:
             - 80:8080
-        depends_on:
-            - elasticsearch
 
