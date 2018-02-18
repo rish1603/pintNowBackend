@@ -90,7 +90,7 @@ client.indices.exists({ index: 'pubs' }).then((indexExists) => {
 //}); // delete
 
 // Constants
-const PORT = 8080;
+const PORT = 80;
 const HOST = '0.0.0.0';
 
 // App
