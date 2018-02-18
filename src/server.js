@@ -5,6 +5,7 @@ const elasticsearch = require('elasticsearch')
 const fs = require('fs');
 const getDist = require('./util');
 const ping = require('ping');
+const bodyParser = require('body-parser')
 
 
 var client  = new elasticsearch.Client({
@@ -92,6 +93,7 @@ const HOST = '0.0.0.0';
 
 // App
 const app = express();
+app.use(bodyParser.json())
 app.get('/', (req, res) => {
     res.send('PintNow server 0.0.1');
 });
@@ -158,6 +160,56 @@ app.get('/pubs', (req, res) => {
         res.send({ error });
     });
 });
+
+app.post('/pubs/price', (req, res) => {
+    const id = req.body.id
+    const price = req.body.price
+    res.set('Content-Type', 'application/json')
+    if(id == null, price == null) {
+        res.send(JSON.stringify({
+            error: "id or price not specified"
+        }))
+    }
+    client.search({
+        index: 'pubs',
+        type: 'pub',
+        body: {
+          query: {
+            match: {
+                "_id":id
+            }
+          }
+        }
+      })
+      .then((resp) => {
+            var hit = resp.hits.hits[0]._source;
+            console.log(resp.hits)
+            const prices = hit.pricePence == null ? [price] : [price].concat(prices)
+            client.update({
+                index: 'pubs',
+                type: 'pub',
+                id: id,
+                body: {
+                  doc: {
+                    pricePence: prices
+                  }
+                }
+              }, (error, response) => {
+                  if(error) {
+                      res.send(JSON.stringify(error))
+                  }
+                  res.send(JSON.stringify({
+                      msg: `Update document with id:${id}`
+                  }))
+              })
+        })
+        .catch((err) => {
+            console.error(err);
+            res.send(JSON.stringify({
+                error: "wrong id or something"
+            }))
+        })
+})
 
 app.listen(PORT, HOST);
 console.log(`Running on http://${HOST}:${PORT}`);

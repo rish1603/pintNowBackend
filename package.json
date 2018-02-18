@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "node src/start.js"
+    "start": "node src/start.js",
+    "dev": "docker-compose build; docker-compose up"
   },
   "dependencies": {
+    "body-parser": "^1.18.2",
     "elasticsearch": "^14.1.0",
     "express": "^4.16.1",
     "ping": "^0.2.2",
